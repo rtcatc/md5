@@ -41,7 +41,7 @@ if(form.q.value==""){
 		if(isset($obj)){
 			if($obj->s)
 			{
-				echo '<ul>明文为：:';
+				echo '<ul>明文为:';
 				echo $obj->r;
 				echo '</ul>';
 				
