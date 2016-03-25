@@ -1,35 +1,56 @@
-<
-//构造要post的字符串，，网页地址后面加个问号，中间用&符号连接各个参数
-$url = 'http://www.baidu.com?' ;
-$fields = array(
-'hpzl'=>$_POST['hpzl'],
-'fzjg'=>$_POST['fzjg'],
-'hphm'=>$_POST['hphm'],
-'clsbdh'=>$_POST['clsbdh'],
-'businesstype'=>'Wz_vehcxPROC',
-'hp'=>strtoupper('Q'.$_POST['hphm']),
-'clsbh'=>$_POST['clsbdh'],
-'luruflag'=>'',
-'xreset'=>'1',
-'wfbj2'=>'');
-//url-ify the data for the POST
-$fields_string ='';
-foreach($fields as $key=>$value)
-{
-$str = $key.'='.$value.'&';
-$fields_string .= $str;
+<?php
+/*
+*Author:Code Life
+*http://www.ract.top
+*/
+
+$time_start = microtime(true);
+
+
+if(!empty($_POST)&&!empty($_POST['q'])){
+	
+	$e = trim($_POST['q']);
+	if((strlen($e) == 16) || (strlen($e) == 32))
+	{
+		set_time_limit(0);				//不限定脚本执行时间
+		$q=strip_tags(trim($e));
+		$url = "http://www.md5.lol/api/md5/".$q;
+		$results=file_get_contents($url);
+		$obj=json_decode($results); 
+	}else{
+		$obj= array("s" => false,"r" => "目前测试MD5"); 
+		$obj = json_decode(json_encode($obj));
+	}
+	
 }
-rtrim($fields_string ,'&') ;
-//open connection
-$ch = curl_init() ;
-//set the url, number of POST vars, POST data
-$url = $url.rtrim($fields_string ,'&') ;
-curl_setopt($ch, CURLOPT_URL,$url) ;
-curl_setopt($ch, CURLOPT_POST,count($fields)) ;
-curl_setopt($ch, CURLOPT_POSTFIELDS,$fields_string) ;
-//execute post
-$result = curl_exec($ch) ;
-print_r($result);
-//close connection
-curl_close($ch) ;
-curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); >
+?>
+<script>
+<!--
+    function check(form){
+if(form.q.value==""){
+  alert("目前测试MD5");
+  form.q.focus();
+  return false;
+ }
+}
+-->
+</script>
+<form name="from"action="post_data.php" method="post">
+			<div id="content"><div id="create_form"><label>请输入密文：<input class="inurl" size="26" id="unurl" name="q" value="<?php echo !empty($q)?$q:''; ?>"/></label>
+			<?php
+		if(isset($obj)){
+			if($obj->s)
+			{
+				echo '<ul>恭喜,解密成功:<font color=#ffff00><strong>';
+				echo $obj->r;
+				echo '</strong><br /><li>数据来源:<a href="http://www.md5.lol/api/md5">www.md5.lol</a><br /></li></font>';
+				echo '</ul>';
+				
+			}else
+			{
+				echo '<ul>解密失败,进入后台破解...';
+				echo '</ul>';
+			}
+			
+		}
+		?>
