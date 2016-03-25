@@ -41,9 +41,8 @@ if(form.q.value==""){
 		if(isset($obj)){
 			if($obj->s)
 			{
-				echo '<ul>恭喜,解密成功:<font color=#ffff00><strong>';
+				echo '<ul>明文为：:';
 				echo $obj->r;
-				echo '</strong><br /><li>数据来源:<a href="http://www.md5.lol/api/md5">www.md5.lol</a><br /></li></font>';
 				echo '</ul>';
 				
 			}else
